@@ -144,3 +144,7 @@ input[type="submit"] {
 #subject {
   height: 200px;
 }
+.card {
+  width: 800px;
+  margin-left: 30px;
+}

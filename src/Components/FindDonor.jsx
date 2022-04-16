@@ -9,10 +9,28 @@ const FindDonor = () => {
   const [group, setGroup] = useState("")
   const [state, setState] = useState("")
   const [city, setCity] = useState("")
+  const [name, setName] = useState("")
+  const [phone, setPhone] = useState("")
 
   const findDonor = () => {
     return (
       <form>
+        <input
+          type="text"
+          placeholder="Name"
+          className="form-control"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <br />
+        <input
+          type="text"
+          placeholder="Phone Number"
+          className="form-control"
+          onChange={(e) => setPhone(e.target.value)}
+          value={phone}
+        />
+        <br />
         <input
           type="text"
           placeholder="Blood Group"
@@ -49,9 +67,9 @@ const FindDonor = () => {
   return (
     <>
       <div className="find-donor">
-        <span>
+        <h2>
           <strong>Provide the following details</strong>
-        </span>
+        </h2>
         <br />
         <br />
         {findDonor()}
