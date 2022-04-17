@@ -1,68 +1,74 @@
-import React from "react"
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react"
 import Nav from "./Nav"
-
+import axios from "axios"
+import firebase from "firebase/compat/app"
+import "firebase/compat/auth"
+import "firebase/compat/firestore"
 const RegisterDonor = () => {
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/data/get-data")
+      .then((res) => {
+        setUsers(res.data.result)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  })
+
+  const handeClick = (e) => {
+    e.preventDefault()
+    let recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha")
+    let number = this.user.phone
+    console.log(number)
+    number = "+91" + number
+    firebase
+      .auth()
+      .signInWithPhoneNumber(number, recaptcha)
+      .then(function (e) {
+        let code = prompt("Enter the OTP", "")
+        if (code == null) return
+        e.confirm(code)
+          .then(function (result) {
+            console.log(result.user, "user")
+            document.querySelector("label").textContent =
+              "Blood Donated Successfully"
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+  }
+
   return (
     <>
-      <div classNameName="queries">
+      <div className="queries">
         <br />
         <h2>Blood Requests Available</h2>
         <br />
-        <div className="card">
-          <div className="card-header">Anurag Yadav</div>
-          <div className="card-body">
-            <h5 className="card-title">Blood Group: B+</h5>
-            <p className="card-text">
-              Urgent Need of Blood at Bareily,Uttar Pradesh
-            </p>
-            <p>Contact No - 9958255251</p>
-            <a href="#" className="btn btn-primary">
-              Donate
-            </a>
-          </div>
-        </div>
+        {users.map((user, i) => {
+          return (
+            <div className="card" key={i}>
+              <div className="card-header">{user.name}</div>
+              <div className="card-body">
+                <h5 className="card-title">Blood Group: {user.group}</h5>
+                <p className="card-text">
+                  Urgent Need of Blood at {user.City} , {user.state}
+                </p>
+                <p>Contact No - {user.phone}</p>
+                <label></label>
+                <button className="btn btn-primary" onClick={handeClick}>
+                  Donate
+                </button>
+              </div>
+              <br />
+            </div>
+          )
+        })}
         <br />
-        <div className="card">
-          <div className="card-header">Aditya Awasthi</div>
-          <div className="card-body">
-            <h5 className="card-title">Blood Group: AB+</h5>
-            <p className="card-text">
-              Urgent Need of Blood at Jaipur,Rajasthan
-            </p>
-            <p>Contact No - 6396932731</p>
-            <a href="#" className="btn btn-primary">
-              Donate
-            </a>
-          </div>
-        </div>
-        <br />
-        <div className="card">
-          <div className="card-header">Gautam Gupta</div>
-          <div className="card-body">
-            <h5 className="card-title">Blood Group: O+</h5>
-            <p className="card-text">
-              Urgent Need of Blood at Dehradun,Uttrakhand
-            </p>
-            <p>Contact No - 9999624561</p>
-            <a href="#" className="btn btn-primary">
-              Donate
-            </a>
-          </div>
-        </div>
-        <br />
-        <div className="card">
-          <div className="card-header">Sanchit Jain</div>
-          <div className="card-body">
-            <h5 className="card-title">Blood Group: O-</h5>
-            <p className="card-text">
-              Urgent Need of Blood at Lucknow,Uttar Pradesh
-            </p>
-            <p>Contact No - 9999626745</p>
-            <a href="#" className="btn btn-primary">
-              Donate
-            </a>
-          </div>
-        </div>
       </div>
     </>
   )

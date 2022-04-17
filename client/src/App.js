@@ -51,7 +51,7 @@ const App = () => {
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/register-donor" component={RegisterDonor} />
-        <Route exact path="/find-donor" component={FindDonor} />
+        <Route exact path="/donor-find" component={FindDonor} />
         <Route
           exact
           path="/available-hospitals"

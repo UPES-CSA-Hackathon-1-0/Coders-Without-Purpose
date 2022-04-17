@@ -5,13 +5,13 @@ const Home = () => {
   let { user } = useSelector((state) => ({ ...state }))
   return (
     <>
-      <div class="home">
-        <h1 class="top heading">BLOOD-LINK</h1>
-        <h5 class="tag line">
+      <div className="home">
+        <h1 className="top heading">BLOOD-LINK</h1>
+        <h5 className="tag line">
           Excuses never save a life, Blood donation does...
         </h5>
         <br />
-        <p class="about us">
+        <p className="about us">
           Here we connect people who want to donate blood with people who need
           blood. Our aim is that no request for blood goes unfulfilled after all
           someone's few amount of blood can save life of some other person. So
@@ -19,8 +19,8 @@ const Home = () => {
           contribution by donating blood to some needy person.
         </p>
       </div>
-      <div class="content display">
-        <div class="box red">
+      <div className="content display">
+        <div className="box red">
           {user && (
             <a href="/register-donor">
               <button className="home-button btn btn-outline-danger">
@@ -29,9 +29,9 @@ const Home = () => {
             </a>
           )}
         </div>
-        <div class="box green">
+        <div className="box green">
           {user && (
-            <a href="/find-donor">
+            <a href="/donor-find">
               <button className="home-button btn btn-outline-danger">
                 Generate Query
               </button>

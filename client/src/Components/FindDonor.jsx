@@ -1,58 +1,95 @@
 import React from "react"
 import { useState } from "react"
+import { useHistory } from "react-router-dom"
 
 const FindDonor = () => {
-  const handleClick = (e) => {
+  const history = useHistory()
+  const handleClick = async (e) => {
     e.preventDefault()
+
+    const { name, group, phone, state, city } = user
+
+    const res = await fetch("/find-donors", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, group, phone, state, city }),
+    })
+
+    const result = await res.json()
+
+    if (result.status === 422 || !result) {
+      window.alert("Failed Registration")
+    } else {
+      window.alert("Registered Successfully")
+      history.push("/")
+    }
   }
 
-  const [group, setGroup] = useState("")
-  const [state, setState] = useState("")
-  const [city, setCity] = useState("")
-  const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
+  const [user, setUser] = useState({
+    name: "",
+    phone: "",
+    state: "",
+    group: "",
+    city: "",
+  })
+
+  let name, value
+
+  const handleInputs = (e) => {
+    console.log(e)
+    name = e.target.name
+    value = e.target.value
+    setUser({ ...user, [name]: value })
+  }
 
   const findDonor = () => {
     return (
-      <form>
+      <form method="post">
         <input
           type="text"
+          name="name"
           placeholder="Name"
           className="form-control"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
+          onChange={handleInputs}
+          value={user.name}
         />
         <br />
         <input
           type="text"
+          name="phone"
           placeholder="Phone Number"
           className="form-control"
-          onChange={(e) => setPhone(e.target.value)}
-          value={phone}
+          onChange={handleInputs}
+          value={user.phone}
         />
         <br />
         <input
           type="text"
+          name="group"
           placeholder="Blood Group"
           className="form-control"
-          onChange={(e) => setGroup(e.target.value)}
-          value={group}
+          onChange={handleInputs}
+          value={user.group}
         />
         <br />
         <input
           type="text"
+          name="state"
           placeholder="State"
           className="form-control"
-          onChange={(e) => setState(e.target.value)}
-          value={state}
+          onChange={handleInputs}
+          value={user.state}
         />
         <br />
         <input
           type="text"
+          name="city"
           placeholder="City"
           className="form-control"
-          onChange={(e) => setCity(e.target.value)}
-          value={city}
+          onChange={handleInputs}
+          value={user.city}
         />
         <br />
         <a href="/dashboard">
